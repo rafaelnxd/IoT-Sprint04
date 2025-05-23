@@ -32,7 +32,7 @@ Pacientes frequentemente só procuram o dentista quando há dor ou agravamento d
 ### 3.1. Análise de Imagens para Detecção de Cáries
 
 - O usuário envia uma foto da região bucal.  
-- Um modelo **YOLO** pré-treinado identifica áreas suspeitas de cárie.  
+- Um modelo **YOLO** pré-treinado identifica áreas suspeitas de cárie e outros elementos.  
 - Resultados são exibidos no próprio navegador e, se houver detecções, os recortes anotados são armazenados.  
 
 ### 3.2. Sistema RAG Multimodal
