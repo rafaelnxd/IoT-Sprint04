@@ -30,23 +30,21 @@ os.makedirs(IMAGE_DIR, exist_ok=True)
 
 CLARITY_ID = st.secrets["CLARITY_ID"]   # ← substitua pelo seu ID
 
-def inject_clarity():
-    if CLARITY_ID and not st.session_state.get("_clarity_injected"):
-        components.html(
-            f"""
-            <script type="text/javascript">
-            (function(c,l,a,r,i,t,y){{
-                c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            }})(window, document, "clarity", "script", "{CLARITY_ID}");
-            </script>
-            """,
-            height=0,
-        )
-        st.session_state["_clarity_injected"] = True
 
-inject_clarity()
+if CLARITY_ID:
+    st.markdown(
+        f"""
+        <!-- Microsoft Clarity tracking code -->
+        <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){{
+            c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        }})(window, document, "clarity", "script", "{CLARITY_ID}");
+        </script>
+        """,
+        unsafe_allow_html=True,
+    )
 # ──────────────────────────────────────
 
 
