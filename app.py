@@ -17,9 +17,7 @@ import streamlit.components.v1 as components
 load_dotenv()
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-if not OPENAI_API_KEY:
-    st.error("A chave da API do OpenAI não foi encontrada. Verifique o arquivo .env.")
-    st.stop()
+
 
 # --- Configurações Iniciais ---
 FAISS_INDEX_IMAGE = "faiss_index_image.index"
