@@ -31,10 +31,12 @@ os.makedirs(IMAGE_DIR, exist_ok=True)
 CLARITY_ID = st.secrets["CLARITY_ID"]   # ← substitua pelo seu ID
 
 
+
 if CLARITY_ID:
+    # 1) tracking code do Clarity
     st.markdown(
         f"""
-        <!-- Microsoft Clarity tracking code -->
+        <!-- Microsoft Clarity -->
         <script type="text/javascript">
         (function(c,l,a,r,i,t,y){{
             c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
@@ -45,7 +47,25 @@ if CLARITY_ID:
         """,
         unsafe_allow_html=True,
     )
-# ──────────────────────────────────────
+
+    # 2) corrige a URL / título dentro do mesmo bloco
+    st.markdown(
+        """
+        <script>
+          // Ajusta URL no histórico para que Clarity não veja about://srcdoc
+          window.history.replaceState({}, '', '/');
+
+          // Define um título amigável
+          document.title = 'Painel Swift';
+
+          // Força o nome da página para o Clarity
+          if (window.clarity) {
+            clarity('set', 'page', 'dashboard');
+          }
+        </script>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 if os.path.exists(PRONTUARIOS_DATA_FILE):
