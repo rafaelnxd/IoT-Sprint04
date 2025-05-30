@@ -31,42 +31,41 @@ os.makedirs(IMAGE_DIR, exist_ok=True)
 CLARITY_ID = st.secrets["CLARITY_ID"]   # ← substitua pelo seu ID
 
 
-
 if CLARITY_ID:
-    # 1) tracking code do Clarity
-    st.markdown(
+    # 2a) injeta o próprio snippet do Clarity no document pai
+    components.html(
         f"""
-        <!-- Microsoft Clarity -->
         <script type="text/javascript">
         (function(c,l,a,r,i,t,y){{
             c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        }})(window, document, "clarity", "script", "{CLARITY_ID}");
+            // cria a tag <script> no HEAD do parent.document
+            t = window.parent.document.createElement(r);
+            t.async = 1;
+            t.src = "https://www.clarity.ms/tag/" + i;
+            head = window.parent.document.getElementsByTagName("head")[0];
+            head.appendChild(t);
+        }})(window.parent, window.parent.document, "clarity", "script", "{CLARITY_ID}");
         </script>
         """,
-        unsafe_allow_html=True,
+        height=0,
     )
 
-    # 2) corrige a URL / título dentro do mesmo bloco
-    st.markdown(
+    # 2b) corrige a URL/título no parent para que o Heatmap não seja 'about://srcdoc'
+    components.html(
         """
         <script>
-          // Ajusta URL no histórico para que Clarity não veja about://srcdoc
-          window.history.replaceState({}, '', '/');
-
-          // Define um título amigável
-          document.title = 'Painel Swift';
-
-          // Força o nome da página para o Clarity
-          if (window.clarity) {
-            clarity('set', 'page', 'dashboard');
+          window.parent.history.replaceState({}, '', '/');
+          window.parent.document.title = 'Painel Swift';
+          if (window.parent.clarity) {
+            window.parent.clarity('set', 'page', 'dashboard');
           }
         </script>
         """,
-        unsafe_allow_html=True,
+        height=0,
     )
 
+# … o resto do seu código Streamlit …
+st.title("Olá, teste do Clarity!")
 
 if os.path.exists(PRONTUARIOS_DATA_FILE):
     with open(PRONTUARIOS_DATA_FILE, 'rb') as f:
