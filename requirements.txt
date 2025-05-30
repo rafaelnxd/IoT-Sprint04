@@ -1,0 +1,9 @@
+streamlit>=1.22.0
+ultralytics>=8.0.20
+faiss-cpu          # FAISS para CPU
+sentence-transformers
+python-dotenv
+openai
+pillow
+numpy
+requests
