@@ -1,9 +1,12 @@
 streamlit>=1.22.0
 ultralytics>=8.0.20
-faiss-cpu          # FAISS para CPU
+faiss-cpu
 sentence-transformers
 python-dotenv
 openai
 pillow
 numpy
 requests
+
+torch               # motor do ultralytics
+**opencv-python-headless**   # substitui opencv-python para ambientes sem GUI**
